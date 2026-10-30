@@ -1,33 +1,29 @@
 # SAT Study Room
 
-Browser-based SAT practice interface with topic filters, answer review, elimination, themes, a calculator popup, and progress saved on the device.
+**Live website: [https://yapperyap.github.io/sat-study-room/](https://yapperyap.github.io/sat-study-room/)**
 
-## Run locally
+Browser-based SAT practice with topic filters, explanations, answer elimination, themes, a calculator, and progress saved on your device.
 
-Requires Python 3. From the repository root:
+ChatGPT-hosted version: https://sat-study-room.chalkydaisy5.chatgpt.site/
+
+## Independent hosting and automatic mirroring
+
+GitHub Pages serves its own copy of the application, assets, and question data. It does not redirect to or frame the ChatGPT website. Practice runs on the GitHub Pages origin; saved progress is separate for each origin.
+
+The **Mirror ChatGPT site to GitHub Pages** workflow checks the public ChatGPT release every 15 minutes, on pushes to `main`, and on manual dispatch. GitHub may delay scheduled runs. After a successful check, it deploys a complete static copy. A failed download or incomplete bank fails the job and preserves the previous deployment.
+
+`mirror.py` downloads the public portable release, validates and extracts the embedded question bank, and fetches the current application files. Mirrored third-party data exists in the deployment artifact, not in source commits. Rebuild `sat-study-room-local.html` whenever publishing changes to the ChatGPT site. To mirror immediately, run the workflow from the Actions tab. GitHub can disable scheduled workflows after 60 days of repository inactivity; re-enable it from Actions if needed.
+
+## Run source locally
 
 ```sh
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. Serve over HTTP rather than opening index.html directly because the application fetches JSON files.
-
-## Question data
-
-This source release excludes College Board questions, passages, answer explanations, images, the generated bank index, and the self-contained HTML download that embeds that content. The supplied index is empty. Add data only when you have the necessary permissions.
-
-The application expects `dist/index.json` with a `questions` array containing entries with `id`, `subject`, `domain`, `skill`, `difficulty`, and optionally `externalId`. Each entry loads `dist/questions/<id>.json` containing `id`, `passage`, `stem`, `options`, `correct`, and `rationale`. Passage, stem, options, and rationale use HTML strings; correct answers use an array of strings.
-
-`build-bank.py` converts a locally supplied `/tmp/sat-all.jsonl` into these files. `build-local.py` builds the portable HTML after data is supplied. Review the scripts before running; the acquisition script is provided as source and does not grant content rights.
+Open http://localhost:8000. The source `dist/index.json` is intentionally empty. Supply data only when you have the necessary permissions. `build-bank.py` converts locally supplied question data and `build-local.py` creates the portable release.
 
 ## License and credits
 
-Original application code: MIT, see LICENSE. The MIT license does not grant rights to third-party content, services, trademarks, or dependencies. SAT and Bluebook names refer to College Board products; this independent project is not affiliated with or endorsed by College Board.
+Original application code: MIT; see LICENSE. College Board questions, passages, answer explanations, and images remain third-party content and are **not** covered by the MIT license. The license grants no rights to third-party services, trademarks, or dependencies. This independent project is not affiliated with or endorsed by College Board.
 
 Credits: https://github.com/yapperyap
-
-## Live site and GitHub Pages
-
-Live application: https://sat-study-room.chalkydaisy5.chatgpt.site/
-
-GitHub Pages redirects to the live application, so it always opens the latest hosted version. It is not an independently hosted copy of the question bank. The `dist/` directory contains the open-source application with an empty question index. Future source changes should also be committed here; the redirect does not synchronize source code automatically.
