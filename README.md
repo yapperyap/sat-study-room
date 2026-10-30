@@ -25,3 +25,9 @@ The application expects `dist/index.json` with a `questions` array containing en
 Original application code: MIT, see LICENSE. The MIT license does not grant rights to third-party content, services, trademarks, or dependencies. SAT and Bluebook names refer to College Board products; this independent project is not affiliated with or endorsed by College Board.
 
 Credits: https://github.com/yapperyap
+
+## Live site and GitHub Pages
+
+Live application: https://sat-study-room.chalkydaisy5.chatgpt.site/
+
+GitHub Pages redirects to the live application, so it always opens the latest hosted version. It is not an independently hosted copy of the question bank. The `dist/` directory contains the open-source application with an empty question index. Future source changes should also be committed here; the redirect does not synchronize source code automatically.
