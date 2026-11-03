@@ -20,6 +20,8 @@ Download a local HTML file to run from the releases page https://github.com/yapp
 
 Open that file in your browser (this is the low cortisol way to do it).
 
+The external Desmos calculator may require an internet connection for legal reasons.
+
 ## Host Site Locally
 Python 3 is the only build prerequisite. No package installation is required.
 
@@ -31,10 +33,6 @@ python3 -m http.server 8000 --directory dist
 ```
 
 Open `http://localhost:8000`. Application files and the compressed question bank are included in `dist/`; running or deploying the site does not fetch another hosted copy.
-
-## Portable download
-
-Download `sat-study-room-local.html` from [Releases](https://github.com/yapperyap/sat-study-room/releases), then open it in a modern browser. The application, question bank, styles, and legal information are embedded in that file. The external Desmos calculator requires an internet connection.
 
 To rebuild the download:
 
