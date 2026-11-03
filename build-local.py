@@ -8,7 +8,7 @@ bank=json.loads((root/'index.json').read_text())
 questions={p.stem:json.loads(p.read_text()) for p in (root/'questions').glob('*.json')}
 data=base64.b64encode(gzip.compress(json.dumps({'index':bank,'questions':questions},separators=(',',':')).encode(),mtime=0)).decode()
 s=s.replace('<script src="app.js"></script>','<script id="localData" type="application/json">'+data+'</script><script>document.querySelector(".brand").href=location.pathname;window.localBankReady=(async()=>{const bytes=Uint8Array.from(atob(document.getElementById("localData").textContent),c=>c.charCodeAt(0));const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));window.localBank=JSON.parse(await new Response(stream).text());document.getElementById("localData").remove()})();</script><script src="app.js"></script>')
-for name in ['app.js','appearance.js','calculator.js','interface.js','practice-options.js']:
+for name in ['app.js','appearance.js','calculator.js','interface.js','practice-options.js','offline.js']:
  code=(root/name).read_text()
  if name=='app.js':
   code=code.replace('async function init(){try{', 'async function init(){try{await window.localBankReady;')
