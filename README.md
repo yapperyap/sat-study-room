@@ -1,29 +1,68 @@
 # SAT Study Room
 
-**Live website: [https://yapperyap.github.io/sat-study-room/](https://yapperyap.github.io/sat-study-room/)**
+[**Start practicing →**](https://yapperyap.github.io/sat-study-room/)
 
-Browser-based SAT practice with topic filters, explanations, answer elimination, themes, a calculator, and progress saved on your device.
+A free, browser-based SAT practice workspace with subject and topic filters, answer explanations, and progress saved on your device.
 
-ChatGPT-hosted version: https://sat-study-room.chalkydaisy5.chatgpt.site/
+## Features
 
-## Independent hosting and automatic mirroring
+- 3,770 Reading and Writing and Math questions organized by domain and skill
+- Multiple-topic selection, difficulty filters, shuffled practice, and marked questions
+- Answer explanations, answer elimination, and question ID navigation
+- Per-topic progress, correct and incorrect counts, and selective resets
+- Light, dark, and system themes, custom fonts, and adjustable interface sizing
+- Independent reading panes, responsive layouts, and a resizable calculator
+- A portable HTML download for local practice
 
-GitHub Pages serves its own copy of the application, assets, and question data. It does not redirect to or frame the ChatGPT website. Practice runs on the GitHub Pages origin; saved progress is separate for each origin.
+## Run locally
 
-The **Mirror ChatGPT site to GitHub Pages** workflow checks the public ChatGPT release every 15 minutes, on pushes to `main`, and on manual dispatch. GitHub may delay scheduled runs. After a successful check, it deploys a complete static copy. A failed download or incomplete bank fails the job and preserves the previous deployment.
-
-`mirror.py` downloads the public portable release, validates and extracts the embedded question bank, and fetches the current application files. Mirrored third-party data exists in the deployment artifact, not in source commits. Rebuild `sat-study-room-local.html` whenever publishing changes to the ChatGPT site. To mirror immediately, run the workflow from the Actions tab. GitHub can disable scheduled workflows after 60 days of repository inactivity; re-enable it from Actions if needed.
-
-## Run source locally
+Python 3 is the only build prerequisite. No package installation is required.
 
 ```sh
+git clone https://github.com/yapperyap/sat-study-room.git
+cd sat-study-room
+python3 prepare-site.py
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. The source `dist/index.json` is intentionally empty. Supply data only when you have the necessary permissions. `build-bank.py` converts locally supplied question data and `build-local.py` creates the portable release.
+Open `http://localhost:8000`. Application files and the compressed question bank are included in `dist/`; running or deploying the site does not fetch another hosted copy.
 
-## License and credits
+## Portable download
 
-Original application code: MIT; see LICENSE. College Board questions, passages, answer explanations, and images remain third-party content and are **not** covered by the MIT license. The license grants no rights to third-party services, trademarks, or dependencies. This independent project is not affiliated with or endorsed by College Board.
+Download `sat-study-room-local.html` from [Releases](https://github.com/yapperyap/sat-study-room/releases), then open it in a modern browser. The application, question bank, styles, and legal information are embedded in that file. The external Desmos calculator requires an internet connection.
 
-Credits: https://github.com/yapperyap
+To rebuild the download:
+
+```sh
+python3 prepare-site.py
+```
+
+The command unpacks the question files, validates them, and writes `dist/sat-study-room-local.html`.
+
+## Deploy
+
+GitHub Pages deploys `dist/` on pushes to `main` or a manual workflow run. The workflow validates the question bank and rebuilds the portable download before publishing. It does not poll or download a separate website.
+
+Push a version tag such as `v1.0.1` to publish a GitHub release containing the portable HTML and a ZIP of the complete static website. Both downloads are built from the tagged source.
+
+## Project structure
+
+| Path | Purpose |
+| --- | --- |
+| `dist/` | Complete static website, assets, and question data |
+| `prepare-site.py` | Unpacks question data and builds the complete site |
+| `build-local.py` | Self-contained HTML packager |
+| `validate.py` | Static release and question-bank validation |
+| `build-bank.py` | Converts locally supplied question records |
+| `fetch-bank.mjs` | Question-bank acquisition utility |
+| `.github/workflows/` | Pages deployment and release automation |
+
+## Privacy
+
+Practice progress and preferences are stored in your browser. Clearing site data removes them. Browser storage is separate for each website address. The optional calculator and external links may connect to third-party services.
+
+## License and attribution
+
+Original application code is licensed under the [MIT License](LICENSE). College Board questions, passages, explanations, images, trademarks, and third-party services are excluded from that license and remain subject to their respective owners' terms. See the site's legal page and `dist/source-manifest.json` for attribution and source information.
+
+SAT Study Room is an independent study tool and is not affiliated with or endorsed by College Board. Question-bank snapshot: October 28, 2026.
