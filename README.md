@@ -1,12 +1,12 @@
 # SAT Study Room
 
-[**Start practicing →**](https://yapperyap.github.io/sat-study-room/)
+**Start practicing at** https://yapperyap.github.io/sat-study-room/
 
 A free, browser-based SAT practice workspace with subject and topic filters, answer explanations, and progress saved on your device.
 
 ## Features
 
-- 3,770 Reading and Writing and Math questions organized by domain and skill
+- 3,770 Reading and Writing and Math questions from the collegeboard question bank organized by domain and skill
 - Multiple-topic selection, difficulty filters, shuffled practice, and marked questions
 - Answer explanations, answer elimination, and question ID navigation
 - Per-topic progress, correct and incorrect counts, and selective resets
@@ -14,8 +14,13 @@ A free, browser-based SAT practice workspace with subject and topic filters, ans
 - Independent reading panes, responsive layouts, and a resizable calculator
 - A portable HTML download for local practice
 
-## Run locally
+## EASILY access locally
 
+Download a local HTML file to run from the releases page https://github.com/yapperyap/sat-study-room/releases
+
+Open that file in your browser (this is the low cortisol way to do it).
+
+## Host Site Locally
 Python 3 is the only build prerequisite. No package installation is required.
 
 ```sh
