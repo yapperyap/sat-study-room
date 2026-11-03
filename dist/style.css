@@ -53,3 +53,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,s
 
 /* Official diagrams use black ink, including transparent SVG backgrounds. */
 .passage svg,.questionpane svg,.passage img,.questionpane img{background-color:#fff;color:#000;color-scheme:light}
+
+.saved-data-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 20px}.calculator-open{display:inline-flex;align-items:center;justify-content:center;min-width:34px;min-height:34px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;color:var(--text);background:var(--panel)}.calculator-open:hover{background:var(--soft)}.calculator-open:focus-visible{outline:2px solid var(--blue);outline-offset:2px}#calculatorBtn svg{display:block}

@@ -1,6 +1,10 @@
 'use strict';
 (() => {
   const button=document.querySelector('#calculatorBtn'),panel=document.querySelector('#calculatorWindow'),frame=document.querySelector('#calculatorFrame'),handle=document.querySelector('#calculatorHandle'),size=document.querySelector('#calculatorSize');
+  // Load the official embed in the background so Desmos can use its own browser cache.
+  const preload=()=>{if(navigator.onLine&&!frame.hasAttribute('src'))frame.src='https://www.desmos.com/testing/collegeboard/graphing'};
+  if('requestIdleCallback' in window)requestIdleCallback(preload,{timeout:3000});else setTimeout(preload,1500);
+  window.addEventListener('online',preload);
   let math=document.querySelector('#sectionTitle').textContent==='Math';button.hidden=!math;
   function close(restore=true){panel.hidden=true;button.setAttribute('aria-expanded','false');if(restore&&!button.hidden)button.focus()}
   function fit(){const r=panel.getBoundingClientRect();panel.style.left=Math.max(8,Math.min(r.left,innerWidth-r.width-8))+'px';panel.style.top=Math.max(8,Math.min(r.top,innerHeight-r.height-8))+'px';panel.style.right='auto'}
@@ -18,7 +22,7 @@
     resize.onkeydown=e=>{const delta={ArrowRight:[20,0],ArrowLeft:[-20,0],ArrowDown:[0,20],ArrowUp:[0,-20]}[e.key];if(delta){e.preventDefault();resizeTo(panel.getBoundingClientRect(),resize.dataset.corner,...delta)}};
   });
   let drag=null;
-  handle.addEventListener('pointerdown',e=>{if(e.target.closest('button')||e.button!==0)return;const r=panel.getBoundingClientRect();drag={x:e.clientX-r.left,y:e.clientY-r.top};handle.setPointerCapture(e.pointerId);panel.classList.add('moving');e.preventDefault()});
+  handle.addEventListener('pointerdown',e=>{if(e.target.closest('button,a')||e.button!==0)return;const r=panel.getBoundingClientRect();drag={x:e.clientX-r.left,y:e.clientY-r.top};handle.setPointerCapture(e.pointerId);panel.classList.add('moving');e.preventDefault()});
   handle.addEventListener('pointermove',e=>{if(!drag)return;panel.style.left=Math.max(8,Math.min(e.clientX-drag.x,innerWidth-panel.offsetWidth-8))+'px';panel.style.top=Math.max(8,Math.min(e.clientY-drag.y,innerHeight-panel.offsetHeight-8))+'px';panel.style.right='auto'});
   function end(){drag=null;panel.classList.remove('moving')}
   handle.addEventListener('pointerup',end);handle.addEventListener('lostpointercapture',end);
