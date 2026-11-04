@@ -22,11 +22,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      pages: read
     steps:
       - uses: actions/checkout@v4
       - name: Build and validate committed website
@@ -50,8 +46,18 @@ jobs:
         with:
           path: dist
           name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+  deploy:
+    needs: publish
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy website from repository
-        if: github.ref == 'refs/heads/main'
         id: deployment
         uses: actions/deploy-pages@v4
         with:
